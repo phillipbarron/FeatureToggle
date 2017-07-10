@@ -1,6 +1,11 @@
 <?php
 
-namespace Castaway\FeatureToggle;
+namespace FeatureToggle;
+
+use FeatureToggle\Interfaces\ApplicationConfigurationServiceInterface;
+use FeatureToggle\Interfaces\FeatureToggleInterface;
+use FeatureToggle\Interfaces\UserConfigurationServiceInterface;
+use FeatureToggle\Interfaces\UserPreferenceInterface;
 
 /**
  * Class FeatureToggleService

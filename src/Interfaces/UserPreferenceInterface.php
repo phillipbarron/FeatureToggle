@@ -1,6 +1,6 @@
 <?php
 
-namespace Castaway\FeatureToggle;
+namespace FeatureToggle\Interfaces;
 
 /**
  * Interface UserPreferenceInterface
