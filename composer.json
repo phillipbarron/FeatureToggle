@@ -1,0 +1,17 @@
+{
+    "name": "phillipbarron/feature-toggle",
+    "description": "Feature toggle base on application and user configuration",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Phill Barron",
+            "email": "phillipbarron242@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+      "psr-4": {
+        "FeatureToggle\\": "src/"
+      }
+    }
+}
