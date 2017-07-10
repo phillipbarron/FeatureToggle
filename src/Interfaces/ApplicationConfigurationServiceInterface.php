@@ -4,7 +4,7 @@ namespace FeatureToggle\Interfaces;
 
 /**
  * Interface ApplicationConfigurationServiceInterface
- * @package Castaway\FeatureToggle
+ * @package FeatureToggle\Interfaces
  */
 interface ApplicationConfigurationServiceInterface
 {

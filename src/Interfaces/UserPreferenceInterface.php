@@ -4,7 +4,7 @@ namespace FeatureToggle\Interfaces;
 
 /**
  * Interface UserPreferenceInterface
- * @package Castaway\FeatureToggle
+ * @package FeatureToggle\Interfaces
  */
 interface UserPreferenceInterface
 {

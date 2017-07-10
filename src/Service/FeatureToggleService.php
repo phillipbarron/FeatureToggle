@@ -9,7 +9,7 @@ use FeatureToggle\Interfaces\UserPreferenceInterface;
 
 /**
  * Class FeatureToggleService
- * @package Castaway\FeatureToggle
+ * @package FeatureToggle
  */
 class FeatureToggleService
 {

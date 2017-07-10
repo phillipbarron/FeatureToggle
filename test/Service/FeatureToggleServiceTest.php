@@ -7,7 +7,7 @@ class FeatureToggleServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @var \Mockery\MockInterface
      */
-    private $mockPersonalisationService;
+    private $userConfigurationService;
 
     /**
      * @var \Mockery\MockInterface
@@ -26,15 +26,15 @@ class FeatureToggleServiceTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->mockPersonalisationService = Mockery::mock('Castaway\Service\PersonalisationService');
-        $this->mockAppConfigService = Mockery::mock('Castaway\FeatureToggle\ApplicationConfigurationServiceInterface');
-        $this->featureToggleService = new FeatureToggleService($this->mockPersonalisationService, $this->mockAppConfigService);
-        $this->mockUser = Mockery::mock('Castaway\FeatureToggle\UserPreferenceInterface');
+        $this->userConfigurationService = Mockery::mock('FeatureToggle\Interfaces\UserConfigurationServiceInterface');
+        $this->mockAppConfigService     = Mockery::mock('FeatureToggle\Interfaces\ApplicationConfigurationServiceInterface');
+        $this->featureToggleService     = new FeatureToggleService($this->userConfigurationService, $this->mockAppConfigService);
+        $this->mockUser                 = Mockery::mock('FeatureToggle\Interfaces\UserPreferenceInterface');
 
     }
 
     const USER_EMAIL = 'user@domain.com';
-    const FEATURE = "FEATURE";
+    const FEATURE    = "FEATURE";
 
     /**
      * @param $feature
@@ -51,8 +51,8 @@ class FeatureToggleServiceTest extends PHPUnit_Framework_TestCase
         $this->mockAppConfigService->shouldReceive('isEnabledForApplication')->andReturn($dbEnabled);
 
         $mockUser->shouldReceive('getEmail')->andReturn(self::USER_EMAIL);
-        $this->mockPersonalisationService->shouldReceive('setUserToggle');
-        $this->mockPersonalisationService->shouldReceive('getUserToggle')->andReturn($personalisationServiceEnabled);
+        $this->userConfigurationService->shouldReceive('setUserToggle');
+        $this->userConfigurationService->shouldReceive('getUserToggle')->andReturn($personalisationServiceEnabled);
 
         $this->featureToggleService->setApplicationToggle($mockUser, $feature, $dbEnabled);
         $this->featureToggleService->setUserToggle($mockUser, $feature, $personalisationServiceEnabled);
@@ -76,7 +76,7 @@ class FeatureToggleServiceTest extends PHPUnit_Framework_TestCase
 
     public function test_deleteUserToggle_deletes_user_toggle()
     {
-        $this->mockPersonalisationService->shouldReceive('deleteUserToggle')->once()->with($this->mockUser, self::FEATURE);
+        $this->userConfigurationService->shouldReceive('deleteUserToggle')->once()->with($this->mockUser, self::FEATURE);
         $this->featureToggleService->deleteUserToggle($this->mockUser, self::FEATURE);
     }
 
@@ -94,7 +94,7 @@ class FeatureToggleServiceTest extends PHPUnit_Framework_TestCase
 
     public function test_isEnabledForUser_checksUserConfigService()
     {
-        $this->mockPersonalisationService->shouldReceive('getUserToggle')->once()->with($this->mockUser, self::FEATURE);
+        $this->userConfigurationService->shouldReceive('getUserToggle')->once()->with($this->mockUser, self::FEATURE);
         $this->featureToggleService->isEnabledForUser($this->mockUser, self::FEATURE);
     }
 
@@ -105,7 +105,7 @@ class FeatureToggleServiceTest extends PHPUnit_Framework_TestCase
     public function test_setToggles_sets_toggles_for_both_user_and_app(array $toggles)
     {
         foreach ($toggles as $key => $value) {
-            $this->mockPersonalisationService->shouldReceive('setUserToggle')->once()->with($this->mockUser, $key, $value['enabledForUser']);
+            $this->userConfigurationService->shouldReceive('setUserToggle')->once()->with($this->mockUser, $key, $value['enabledForUser']);
             $this->mockUser->shouldReceive('getEmail')->andReturn(self::USER_EMAIL);
             $this->mockAppConfigService->shouldReceive('setApplicationToggle')->once()->with($this->mockUser, $key, $value['enabledForApplication']);;
         }
@@ -122,7 +122,7 @@ class FeatureToggleServiceTest extends PHPUnit_Framework_TestCase
             [
                 [
                     'ALPHA' => ['enabledForApplication' => true, 'enabledForUser' => false],
-                    'BETA' => ['enabledForApplication' => true, 'enabledForUser' => false]
+                    'BETA'  => ['enabledForApplication' => true, 'enabledForUser' => false]
                 ]
             ]
         ];

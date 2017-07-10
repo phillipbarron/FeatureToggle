@@ -3,8 +3,8 @@
 namespace FeatureToggle\Interfaces;
 
 /**
- * Interface UserConfigurationInterface
- * @package Castaway\FeatureToggle
+ * Interface UserConfigurationServiceInterface
+ * @package FeatureToggle\Interfaces
  */
 interface UserConfigurationServiceInterface
 {
